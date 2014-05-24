@@ -1,0 +1,12 @@
+[submodule "nats/gnatsd"]
+	path = nats/gnatsd
+	url = https://github.com/apcera/gnatsd
+[submodule "cloud_controller_ng/cloud_controller_ng"]
+	path = cloud_controller_ng/cloud_controller_ng
+	url = https://github.com/cloudfoundry/cloud_controller_ng
+[submodule "dea_next/dea_ng"]
+	path = dea_next/dea_ng
+	url = https://github.com/cloudfoundry/dea_ng
+[submodule "gorouter/gorouter"]
+	path = gorouter/gorouter
+	url = https://github.com/cloudfoundry/gorouter
