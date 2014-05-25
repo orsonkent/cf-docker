@@ -1,7 +1,5 @@
-cf-docker
 =========
-
-==Cloud Foundry in Docker ==
+#Cloud Foundry in Docker
 
 Summary:  CF components in Docker containers.
 
@@ -13,7 +11,12 @@ Will be made up of:
  - Scripts (to automate the process as much as possible)
  - Templates/Config files
 
-==What's the point?==
+Additional goals: 
+ - Be able to ssh into the containers (as this is useful for diagnosis)
+ - Expose the relevant component's logs to the docker logs command
+
+
+##What's the point?
 
 I've worked extensively with Cloud Foundry, both V1 (Ruby based, no BOSH) and V2 (Migrating to Go, BOSH required), and of the two, I think CF1 had some significant advantages, including:
 	- Lack of BOSH
