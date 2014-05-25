@@ -19,6 +19,7 @@ Additional goals:
 ##What's the point?
 
 I've worked extensively with Cloud Foundry, both V1 (Ruby based, no BOSH) and V2 (Migrating to Go, BOSH required), and of the two, I think CF1 had some significant advantages, including:
+
 	- Lack of BOSH
 	- Ability to run on a single machine
 	- Not tied (without extensive coding) to infrastructure.
