@@ -10,3 +10,6 @@
 [submodule "gorouter/gorouter"]
 	path = gorouter/gorouter
 	url = https://github.com/cloudfoundry/gorouter
+[submodule "pipework"]
+	path = pipework
+	url = https://github.com/jpetazzo/pipework
