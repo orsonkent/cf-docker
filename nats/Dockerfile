@@ -5,7 +5,7 @@ RUN apt-get install -y ssh
 RUN mkdir /var/run/sshd 
 RUN echo 'root:foundry' |chpasswd
 EXPOSE 22
-CMD /usr/sbin/sshd -D
 ADD gnatsd /app/gnatsd
 EXPOSE 4222
 
+CMD /usr/sbin/sshd -D

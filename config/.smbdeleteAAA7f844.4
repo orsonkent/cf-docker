@@ -1,0 +1,16 @@
+---
+system:
+  domain: example.com
+
+component:
+  cloud_controller:
+  nats:
+    port: 4222
+    prof_port: 4242
+    monitor_port: 8222
+    pid_file: /app/run/gnatsd.pid
+    log_file: /app/logs/gnatsd.log
+    username: nats
+    password: iamrandom
+    auth_timeout: 60
+    

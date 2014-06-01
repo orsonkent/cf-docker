@@ -1,16 +1,23 @@
 ---
 system:
   domain: example.com
-
 component:
-  cloud_controller:
   nats:
+    host: 192.168.78.1 
     port: 4222
     prof_port: 4242
     monitor_port: 8222
-    pid_file: /app/run/gnatsd.pid
-    log_file: /app/logs/gnatsd.log
+    pid_file: /vcap/run/gnatsd.pid
+    log_file: /vcap/logs/gnatsd.log
     username: nats
     password: iamrandom
     auth_timeout: 60
+  cloud_controller_ng:
+    host: 192.168.78.2
+  dea_next:
+    host: 
+  gorouter:
+    host:
+  test:
+    host: 192.168.78.101
     
