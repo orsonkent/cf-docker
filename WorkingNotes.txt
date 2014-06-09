@@ -1,0 +1,22 @@
+Model:
+
+cfdocker.sh does:
+	Build - creates new images from Dockerfiles
+	Run - creates new container instance from images built with the build command
+	Stop - Stops a running container
+	Start - Starts a container that has been stopped
+	Delete - deletes a running, stopped, or started container
+
+Build:
+	Knows about the specific container configuration files
+	Generate container specific config files (nats.config, cloud_controller_ng.conf, etc) and load it into the container build directory
+	Build the container including the specific config files and git-submodule directories
+
+
+Add: Ruby config creator
+	makecfg.rb <container>
+	loads .yaml config file
+	loads relevant .erb templates
+	populates templates with relevant data from config file
+
+	

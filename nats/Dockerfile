@@ -1,11 +1,11 @@
-FROM ubuntu:latest
+FROM cfd/gobase:latest
 MAINTAINER Orson Kent (orson@orsonkent.com)
-RUN apt-get update
-RUN apt-get install -y ssh
-RUN mkdir /var/run/sshd 
-RUN echo 'root:foundry' |chpasswd
-EXPOSE 22
-ADD gnatsd /app/gnatsd
+
+ADD gnatsd /go/src/github.com/apcera/gnatsd
+
 EXPOSE 4222
 
-CMD /usr/sbin/sshd -D
+RUN go install github.com/apcera/gnatsd
+
+ADD config /vcap/config
+CMD /etc/init.d/ssh start && cd /go/src/github.com/apcera/gnatsd && go run gnatsd.go -c /vcap/config/gnatsd.conf & /bin/bash

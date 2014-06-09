@@ -2,6 +2,7 @@
 
 # Basic init style script to handle start/stop/destroy/restart/etc of all containers
 
+
 # TASKS:
 # 	build (from a configured Dockerfile)
 #	run (run from a previously created image)
@@ -15,20 +16,24 @@
 
 # Usage:  ./cfdocker.sh [build|run|start|stop|delete|rebuild] [nats|test|all]
 
-if ![ $# = '2' ]; then
-	echo "Usage:  $0 [build|run|start|stop|delete] [base|nats|test|all]"
+if [ !$# = '2' ]; then
+	echo "Usage:  $0 [build|run|start|stop|delete|test] [base|nats|test|all]"
 	exit 1
 fi
  
-task = $1
-container = $2
+task=$1
+container=$2
 
 
 case $task in
 	build)
 		case $container in
 			base)
-				docker build -t cf-d-base cf-d-base/
+				echo "This may take some time..."
+				echo ""
+				echo "but it speeds up subsequent builds enormously"
+				docker build -t cfd/base cfdbase/
+				docker build -t cfd/gobase cfdgobase/
 			;;
 			nats)
 				docker build -t cfdnats nats/
@@ -44,10 +49,12 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker run --name=cfdnats -t cfdnats 
+				docker run --name=cfdnats -i -t cfd/nats
+				./pipework/pipework br1 cfdnats 192.168.78.1/24
+
 			;;
 			test)
-				docker run --name=cfdnats -t cfdnats 
+				docker run --name=cfdtest -i -t cfdtest 
 			;;
 		esac
 	;;
@@ -57,10 +64,10 @@ case $task in
 			echo "The base platform is never run."
 			;;
 			nats)
-				docker start $(docker ps -a | grep cfdnats | awk '{print $1}')
+				docker start cfdnats
 			;;
 			test)
-				docker start $(docker ps -a | grep cfdtest | awk '{print $1}')
+				docker start cfdtest
 			;;
 		esac
 	;;
@@ -70,10 +77,10 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker stop $(docker ps -a | grep cfdnats | awk '{print $1}')
+				docker stop cfdnats
 			;;
 			test)
-				docker stop $(docker ps -a | grep cfdtest | awk '{print $1}')
+				docker stop cfdtest
 			;;
 		esac
 	;;
@@ -83,10 +90,23 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker rm -f $(docker ps -a | grep cfdnats | awk '{print $1}')
+				docker rm -f cfdnats
 			;;
 			test)
-				docker rm -f $(docker ps -a | grep cfdtest | awk '{print $1}')
+				docker rm -f cfdtest
+			;;
+		esac
+	;;
+	test)
+		case $container in
+			base)
+				echo "The base platform is never tested."
+			;;
+			nats)
+				# NATS container tests go here.
+			;;
+			test)
+				echo "testing the test container is meaningless."
 			;;
 		esac
 	;;
