@@ -20,3 +20,15 @@ Add: Ruby config creator
 	populates templates with relevant data from config file
 
 	
+Container construction order (ie, working on....)
+
+nats
+test
+postgres (with persistent volumes)
+cloud controller (may include health manager if required for mvp)
+dea_ng
+gorouter (may include nginx, experimentation required to determine if this would be best on its own container or not)
+uaa (if required for mvp)
+login (if required for mvp)
+mongodb gateway
+mongodb node
