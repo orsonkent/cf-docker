@@ -32,14 +32,20 @@ case $task in
 				echo "This may take some time..."
 				echo ""
 				echo "but it speeds up subsequent builds enormously"
-				docker build -t cfd/base cfdbase/
-				docker build -t cfd/gobase cfdgobase/
+				docker build -t cfd-base cfdbase/
+				docker build -t cfd-gobase cfdgobase/
 			;;
 			nats)
-				docker build -t cfd/nats nats/
+				docker build -t cfd-nats nats/
+			;;
+			postgres)
+				docker build -t cfd-postgres postgres/
 			;;
 			test)
-				docker build -t cfd/test test/
+				docker build -t cfd-test test/
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 	;;
@@ -49,13 +55,15 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker run -d --name=nats -i -t cfd/nats
+				docker run -d --name=nats -i -t cfd-nats
 				sudo ./pipework/pipework br1 nats 192.168.78.1/24
-
 			;;
-			test)
-				docker run -d --name=test -i -t cfd/test 
-				sudo ./pipework/pipework br1 test 192.168.78.200/24
+			postgres)
+				docker run -d --name=postgres -i -t cfd-postgres
+				sudo ./pipework/pipework br1 postgres 192.168.78.2/24
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 		sudo ip addr add 192.168.78.254/24 dev br1
@@ -68,8 +76,11 @@ case $task in
 			nats)
 				docker start nats
 			;;
-			test)
-				docker start test
+			postgres)
+				docker start postgres
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 	;;
@@ -81,8 +92,11 @@ case $task in
 			nats)
 				docker stop nats
 			;;
-			test)
-				docker stop test
+			postgres)
+				docker stop postgres
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 	;;
@@ -94,8 +108,11 @@ case $task in
 			nats)
 				docker rm -f nats
 			;;
-			test)
-				docker rm -f test
+			postgres)
+				docker rm -f postgres
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 	;;
@@ -104,11 +121,21 @@ case $task in
 			base)
 				echo "The base platform is never tested."
 			;;
-			nats)
-				# NATS container tests go here.
-			;;
 			test)
 				echo "testing the test container is meaningless."
+			;;
+			nats|all|postgres)
+				docker run -d --name=test -i -t cfd-test /vcap/tests/$container.rb
+				sudo ./pipework/pipework br1 nats 192.168.78.1/24
+				while ! [ `docker inspect test | grep Running | awk '{print $2}' | sed 's/,//g'` = false ]; do
+					echo "Tests still running..."
+					sleep 1
+				done
+				docker logs test
+				docker rm test
+			;;
+			*)
+				echo "I don't know how to $task $container"
 			;;
 		esac
 	;;

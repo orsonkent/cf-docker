@@ -12,12 +12,11 @@ component:
     username: nats
     password: iamrandom
     auth_timeout: 60
-  cloud_controller_ng:
+  postgres:
     host: 192.168.78.2
-  dea_next:
-    host: 192.168.78.3
-  gorouter:
-    host: 192.168.78.4
+    port: 5432
+    username: foundry
+    password: iamrandom
   test:
     host: 192.168.78.101
     

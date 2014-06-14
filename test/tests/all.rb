@@ -1,12 +1,13 @@
 #!/usr/bin/ruby
 
-test_list=['nats']
+test_list=['nats','postgres']
 
 def colorize(text, color_code)
   "\e[#{color_code}m#{text}\e[0m"
 end
 
 def red(text); colorize(text, 31); end
+def yellow(text); colorize(text, 33); end
 def green(text); colorize(text, 32); end
 
 test_list.each {
@@ -16,4 +17,5 @@ test_list.each {
 	else
 		puts red("#{test} test failed")
 	end
+	puts "================================================================"
 }

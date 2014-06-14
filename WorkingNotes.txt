@@ -22,7 +22,7 @@ Add: Ruby config creator
 	
 Container construction order (ie, working on....)
 
-DONE  - nats
+DONE  - nats (needs config generator)
 DONE  - test (including rudimentary test framework)
 postgres (with persistent volumes)
 cloud controller (may include health manager if required for mvp)
@@ -30,5 +30,5 @@ dea_ng
 gorouter (may include nginx, experimentation required to determine if this would be best on its own container or not)
 uaa (if required for mvp)
 login (if required for mvp)
-mongodb gateway
-mongodb node
+redis gateway
+redis node
