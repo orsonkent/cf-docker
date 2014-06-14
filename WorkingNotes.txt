@@ -22,8 +22,8 @@ Add: Ruby config creator
 	
 Container construction order (ie, working on....)
 
-nats
-test
+DONE  - nats
+DONE  - test (including rudimentary test framework)
 postgres (with persistent volumes)
 cloud controller (may include health manager if required for mvp)
 dea_ng

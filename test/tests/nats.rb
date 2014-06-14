@@ -4,13 +4,12 @@ require 'rubygems'
 require 'nats/client'
 require 'yaml'
 
-#["TERM", "INT"].each { |sig| trap(sig) { NATS.stop } }
-
 def colorize(text, color_code)
   "\e[#{color_code}m#{text}\e[0m"
 end
 
 def red(text); colorize(text, 31); end
+def yellow(text); colorize(text, 33); end
 def green(text); colorize(text, 32); end
 
 config = YAML::load_file(File.join(File.dirname(File.expand_path(__FILE__)), 'cf-docker.yaml'))

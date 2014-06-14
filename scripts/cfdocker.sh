@@ -36,10 +36,10 @@ case $task in
 				docker build -t cfd/gobase cfdgobase/
 			;;
 			nats)
-				docker build -t cfdnats nats/
+				docker build -t cfd/nats nats/
 			;;
 			test)
-				docker build -t cfdtest test/
+				docker build -t cfd/test test/
 			;;
 		esac
 	;;
@@ -49,14 +49,16 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker run --name=cfdnats -i -t cfd/nats
-				./pipework/pipework br1 cfdnats 192.168.78.1/24
+				docker run -d --name=nats -i -t cfd/nats
+				sudo ./pipework/pipework br1 nats 192.168.78.1/24
 
 			;;
 			test)
-				docker run --name=cfdtest -i -t cfdtest 
+				docker run -d --name=test -i -t cfd/test 
+				sudo ./pipework/pipework br1 test 192.168.78.200/24
 			;;
 		esac
+		sudo ip addr add 192.168.78.254/24 dev br1
 	;;
 	start)
 		case $container in
@@ -64,10 +66,10 @@ case $task in
 			echo "The base platform is never run."
 			;;
 			nats)
-				docker start cfdnats
+				docker start nats
 			;;
 			test)
-				docker start cfdtest
+				docker start test
 			;;
 		esac
 	;;
@@ -77,10 +79,10 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker stop cfdnats
+				docker stop nats
 			;;
 			test)
-				docker stop cfdtest
+				docker stop test
 			;;
 		esac
 	;;
@@ -90,10 +92,10 @@ case $task in
 				echo "The base platform is never run."
 			;;
 			nats)
-				docker rm -f cfdnats
+				docker rm -f nats
 			;;
 			test)
-				docker rm -f cfdtest
+				docker rm -f test
 			;;
 		esac
 	;;
