@@ -1,0 +1,149 @@
+---
+local_route: 0.0.0.0
+external_port: 8181
+pid_filename: /tmp/cloud_controller.pid
+message_bus_servers:
+  - nats://192.168.78.1:4222
+
+external_protocol: http
+external_domain: api2.local
+
+system_domain_organization: localhost
+system_domain: local
+app_domains:
+  - local
+
+jobs:
+  global:
+    timeout_in_seconds: 14400
+
+app_events:
+  cutoff_age_in_days: 31
+
+app_usage_events:
+  cutoff_age_in_days: 31
+
+audit_events:
+  cutoff_age_in_days: 31
+
+billing_event_writing_enabled: true
+
+default_app_memory: 1024 #mb
+maximum_app_disk_in_mb: 2048
+
+info:
+  name: "vcap"
+  build: "2222"
+  version: 2
+  support_address: "http://support.cloudfoundry.com"
+  description: "Cloud Foundry sponsored by Pivotal"
+
+nginx:
+  use_nginx: false
+  instance_socket: "/var/vcap/sys/run/cloud_controller_ng/cloud_controller.sock"
+
+logging:
+  file: /tmp/cloud_controller.log
+  level: debug2
+
+#loggregator:
+#  router: "127.0.0.1:3456"
+#  shared_secret: "loggregatorsecret"
+#  url: "ws://loggregator.vcap.me:80"
+
+db:
+  database: "sqlite:///tmp/cloud_controller.db"
+  max_connections: 32
+  pool_timeout: 10
+
+#uaa:
+#  url: "http://localhost:8080/uaa"
+#  resource_id: "cloud_controller"
+#  symmetric_secret: "tokensecret"
+
+cc_partition: ng
+
+bulk_api:
+  auth_user: bulk_user
+  auth_password: bulk_password
+
+# App staging parameters
+staging:
+  # Max duration for staging process
+  timeout_in_seconds: 120 # secs
+  minimum_staging_memory_mb: 1024
+  minimum_staging_disk_mb: 4096
+  auth:
+    user: zxsfhgjg
+    password: ZNVfdase9
+
+quota_definitions:
+  default:
+    memory_limit: 10240
+    total_services: 100
+    non_basic_services_allowed: true
+    total_routes: 1000
+
+default_quota_definition: default
+
+resource_pool:
+  resource_directory_key: "spec-cc-resources"
+  fog_connection:
+    provider: "AWS"
+    aws_access_key_id: "fake_aws_key_id"
+    aws_secret_access_key: "fake_secret_access_key"
+
+packages:
+  app_package_directory_key: "cc-packages"
+  fog_connection:
+    provider: "AWS"
+    aws_access_key_id: "fake_aws_key_id"
+    aws_secret_access_key: "fake_secret_access_key"
+
+droplets:
+  droplet_directory_key: cc-droplets
+  fog_connection:
+    provider: "AWS"
+    aws_access_key_id: "fake_aws_key_id"
+    aws_secret_access_key: "fake_secret_access_key"
+
+buildpacks:
+  buildpack_directory_key: cc-buildpacks
+  fog_connection:
+    provider: "AWS"
+    aws_access_key_id: "fake_aws_key_id"
+    aws_secret_access_key: "fake_secret_access_key"
+
+db_encryption_key: "asdfasdfasdf"
+
+tasks_disabled: false
+
+varz_port: 7800
+varz_user: varz
+varz_password: password
+
+maximum_health_check_timeout: 180
+
+flapping_crash_count_threshold: 3
+
+disable_custom_buildpacks: false
+broker_client_timeout_seconds: 60
+
+uaa_client_name: 'cc_service_broker_client'
+uaa_client_secret: 'some-sekret'
+
+diego: false
+
+renderer:
+  max_results_per_page: 100
+  default_results_per_page: 50
+  max_inline_relations_depth: 3
+
+install_buildpacks:
+  - name: java_buildpack
+    package: buildpack_java
+  - name: ruby_buildpack
+    package: buildpack_ruby
+  - name: node_buildpack
+    package: buildpack_node
+

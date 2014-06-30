@@ -1,7 +1,9 @@
-FROM ubuntu:latest
+FROM ubuntu:14.04
 MAINTAINER Orson Kent (orson@orsonkent.com)
 
 # Set up the basics
+RUN sed -i 's/http:\/\/us.archive/http:\/\/au.archive/g' /etc/apt/sources.list
+RUN sed -i 's/http:\/\/archive/http:\/\/au.archive/g' /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y ssh vim ansible 
 RUN mkdir /var/run/sshd

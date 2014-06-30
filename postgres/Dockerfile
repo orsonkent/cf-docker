@@ -2,7 +2,7 @@
 # example Dockerfile for http://docs.docker.io/examples/postgresql_service/
 #
 
-FROM cfd/base:latest
+FROM cfd-base:latest
 MAINTAINER SvenDowideit@docker.com
 
 # Add the PostgreSQL PGP key to verify their Debian packages.

@@ -1,4 +1,4 @@
-FROM cfd/base:latest
+FROM cfd-base:latest
 MAINTAINER Orson Kent (orson@orsonkent.com)
 RUN apt-get update
 RUN apt-get install -y ruby1.9.3 make ruby1.9.1-dev gcc g++ libpq-dev

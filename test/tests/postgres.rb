@@ -28,16 +28,16 @@ rescue
 	exit 1
 end
 begin
-	puts green('DELETING test table from previous test run')
+	puts green("Deleting test table from previous test run")
     conn.exec("DROP TABLE test;")
 rescue PG::Error => e
 	puts yellow("#{e}")
 end
 
 begin
-	puts green('Creating test table')
-    conn.exec_params('CREATE TABLE test (testentry varchar(40));')
-    puts green('Inserting into test table')
+	puts green("Creating test table")
+    conn.exec_params("CREATE TABLE test (testentry varchar(40));")
+    puts green("Inserting into test table")
     conn.exec_params("INSERT into test (testentry) VALUES ('this is a test');")
 rescue PG::Error => e
     puts red("Error creating and filling test table.")
@@ -47,8 +47,8 @@ rescue PG::Error => e
 end
 
 begin
-	puts green('Selecting from test table')
-	conn.exec( 'SELECT * FROM test;' ) do |result|
+	puts green("Selecting from test table")
+	conn.exec( "SELECT * FROM test;" ) do |result|
 		result.each do |row|
 			row.each do
 				puts green(row)
@@ -62,12 +62,10 @@ rescue PG::Error => e
 end
 
 begin
-	puts green('dropping test table')
+	puts green("dropping test table")
 	conn.exec("drop table test;")
 	puts green("Closing connection")
 	conn.close() if conn
 rescue PG::Error => e
 	puts yellow("#{e}")
 end
-
-#PGconn.new(:host => pghost, :port => pgport, :dbname => 'docker', :login => pguser, :password => pgpass)

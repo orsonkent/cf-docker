@@ -1,4 +1,4 @@
-FROM cfd/gobase:latest
+FROM cfd-gobase:latest
 MAINTAINER Orson Kent (orson@orsonkent.com)
 
 ADD gnatsd /go/src/github.com/apcera/gnatsd
