@@ -16,7 +16,6 @@
 
 # Usage:  ./cfdocker.sh [build|run|start|stop|delete|test] [nats|postgres|test|all]
 
-set -e
 
 if [ !$# = '2' ]; then
 	echo "Usage:  $0 [build|run|start|stop|delete|test] [base|nats|test|all]"
@@ -48,6 +47,9 @@ case $task in
 			test)
 				docker build -t cfd-test test/
 			;;
+			cloudcontroller)
+				docker build -t cfd-cloudcontroller cloud_controller_ng/
+			;;
 			all)
 				$0 build base
 				$0 build nats
@@ -71,6 +73,9 @@ case $task in
 			postgres)
 				docker run -d --name=postgres -i -t cfd-postgres
 				sudo ./pipework/pipework br1 postgres 192.168.78.2/24
+			;;
+			cloudcontroller)
+				docker run -d --name=cloudcontroller -i -t cfd-cloudcontroller
 			;;
 			all)
 				$0 run nats
@@ -172,5 +177,8 @@ case $task in
 			;;
 		esac
 	;;
+#	*)
+#		echo "I don't know how to $task $container"
+#	;;
 esac
 

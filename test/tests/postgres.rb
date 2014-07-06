@@ -14,12 +14,12 @@ def green(text); colorize(text, 32); end
 
 config = YAML::load_file(File.join(File.dirname(File.expand_path(__FILE__)), 'cf-docker.yaml'))
 
-pg_config=config['component']['postgres']
+#pg_config=config['component']['postgres']
 
-pguser=pg_config['username']
-pgpass=pg_config['password']
-pghost=pg_config['host']
-pgport=pg_config['port']
+pguser=config['component']['postgres']['username']
+pgpass=config['component']['postgres']['password']
+pghost=config['component']['postgres']['host']
+pgport=config['component']['postgres']['port']
 puts green("starting PostgreSQL test against #{pghost}")
 begin
 	conn = PG::Connection.open(:host => pghost, :port => pgport, :dbname => 'docker', :user => pguser, :password => pgpass)
@@ -27,22 +27,23 @@ rescue
 	puts red("Failed to connect to database.")
 	exit 1
 end
+
 begin
-	puts green("Deleting test table from previous test run")
-    conn.exec("DROP TABLE test;")
+	puts green("Deleting test table from previous test run (if it exists, which it shouldn't)")
+    conn.exec("DROP TABLE IF EXISTS test;")
 rescue PG::Error => e
 	puts yellow("#{e}")
 end
 
 begin
 	puts green("Creating test table")
-    conn.exec_params("CREATE TABLE test (testentry varchar(40));")
+    conn.exec_params("CREATE TABLE IF NOT EXISTS test (testentry varchar(40));")
     puts green("Inserting into test table")
     conn.exec_params("INSERT into test (testentry) VALUES ('this is a test');")
 rescue PG::Error => e
     puts red("Error creating and filling test table.")
     puts red("#{e}")
-    conn.exec("DROP TABLE test;")
+    conn.exec("DROP TABLE IF EXISTS test;")
    	exit 1
 end
 
